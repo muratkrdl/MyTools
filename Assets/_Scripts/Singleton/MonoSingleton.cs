@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace _Scripts.Singleton
 {
-    public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         [SerializeField] private bool dontDestroyOnLoad;
         
