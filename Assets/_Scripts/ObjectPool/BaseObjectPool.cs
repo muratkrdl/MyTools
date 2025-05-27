@@ -4,49 +4,54 @@ using UnityEngine.Pool;
 
 namespace _Scripts.ObjectPool
 {
-    public abstract class BaseObjectPool<T> : MonoSingleton<BaseObjectPool<T>> where T : MonoBehaviour, IPoolObject<T>
+    public abstract class BaseObjectPool<T1,T2> : MonoSingleton<T2> where T1 : MonoBehaviour, IPoolObject<T1> where T2 : MonoBehaviour
     {
-        [SerializeField] protected T prefab;
+        [SerializeField] protected T1 prefab;
 
         [SerializeField] private int defaultPoolSize;
         [SerializeField] private int maxPoolSize;
 
-        private ObjectPool<T> _pool;
+        private ObjectPool<T1> _pool;
 
         protected override void Awake()
         {
-            _pool = new ObjectPool<T>
-                (
-                    ObCreate,
-                    OnGet,
-                    OnRelease,
-                    OnDestroy,
-                    true,
-                    defaultPoolSize,
-                    maxPoolSize
-                );
+            _pool = new ObjectPool<T1> 
+            (
+                ObCreate,
+                OnGet,
+                OnRelease,
+                OnDestroyForPool,
+                true,
+                defaultPoolSize,
+                maxPoolSize 
+            );
         }
 
-        protected virtual T ObCreate()
+        protected virtual T1 ObCreate()
         {
             var obj = Instantiate(prefab, transform);
             obj.SetPool(_pool);
             return obj;
         }
 
-        protected virtual void OnGet(T obj)
+        protected virtual void OnGet(T1 obj)
         {
             obj.gameObject.SetActive(true);
         }
 
-        protected virtual void OnRelease(T obj)
+        protected virtual void OnRelease(T1 obj)
         {
             obj.gameObject.SetActive(false);
         }
 
-        private void OnDestroy(T obj)
+        private void OnDestroyForPool(T1 obj)
         {
             Destroy(obj);
+        }
+
+        public T1 GetFromPool()
+        {
+            return _pool.Get();
         }
         
     }
