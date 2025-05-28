@@ -11,10 +11,10 @@ namespace _Scripts.SFX
         
         public bool Loop;
         
-        [Range(0,1)] public float Volume;
-        [Range(-3,3)] public float MinPitch;
-        [Range(-3,3)] public float MaxPitch;
-        [Range(0,1)] public float Is3D;
+        [Range(0,1)] public float Volume = .5f;
+        [Range(-3,3)] public float MinPitch = 1f;
+        [Range(-3,3)] public float MaxPitch = 1f;
+        [Range(0,1)] public float Is3D = 0f;
         
         public float MaxDistance = 500f;
 

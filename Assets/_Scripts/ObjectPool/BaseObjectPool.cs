@@ -44,7 +44,7 @@ namespace _Scripts.ObjectPool
             obj.gameObject.SetActive(false);
         }
 
-        private void OnDestroyForPool(T1 obj)
+        protected virtual void OnDestroyForPool(T1 obj)
         {
             Destroy(obj);
         }
