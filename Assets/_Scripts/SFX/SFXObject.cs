@@ -1,6 +1,7 @@
 using _Scripts.ObjectPool;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Pool;
 
 namespace _Scripts.SFX
@@ -16,7 +17,7 @@ namespace _Scripts.SFX
             _pool = pool;
         }
 
-        public void Play(SFXData data)
+        public void Play(SFXData data, AudioMixerGroup audioMixerGroupByType)
         {
             audioSource.clip = data.GetClip();
             audioSource.loop = data.Loop;
@@ -24,6 +25,7 @@ namespace _Scripts.SFX
             audioSource.pitch = data.GetPitch();
             audioSource.spatialBlend = data.Is3D;
             audioSource.maxDistance = data.MaxDistance;
+            audioSource.outputAudioMixerGroup = audioMixerGroupByType;
             audioSource.Play();
             Release().Forget();
         }
@@ -36,7 +38,6 @@ namespace _Scripts.SFX
         private async UniTaskVoid Release()
         {
             await UniTask.WaitUntil(() => !audioSource.isPlaying);
-            audioSource.Stop();
             ReleasePool();
         }
 

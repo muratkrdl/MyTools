@@ -8,6 +8,8 @@ namespace _Scripts.SFX
         public string Name;
         
         public AudioClip[] Clips;
+
+        public SFXType type;
         
         public bool Loop;
         
@@ -26,6 +28,11 @@ namespace _Scripts.SFX
         public float GetPitch()
         {
             return Random.Range(MinPitch, MaxPitch);
+        }
+        
+        public override int GetHashCode()
+        {
+            return name.GetHashCode();
         }
         
     }

@@ -4,6 +4,12 @@ namespace _Scripts.Utilities
 {
     public static class ConstUtilities
     {
+#region Strings
+
+        public const string SINGLE = "Single";
+        public const string LOOP = "Loop";
+
+#endregion
         
 #region GameObjects
 
