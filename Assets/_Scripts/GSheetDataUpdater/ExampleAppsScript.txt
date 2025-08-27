@@ -1,0 +1,38 @@
+function doGet() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("PAGE_NAME");
+  var range = sheet.getDataRange();
+  var values = range.getValues();
+
+  var data = [];
+  var headers = values[0];
+
+  // Convert the headings to PascalCase
+  var normalizedHeaders = headers.map(function(header) {
+    return toPascalCase(header);
+  });
+
+  for (var i = 1; i < values.length; i++) {
+    var row = {};
+    for (var j = 0; j < normalizedHeaders.length; j++) {
+      // Use the normalized PascalCase heading as the key
+      row[normalizedHeaders[j]] = values[i][j];
+    }
+    data.push(row);
+  }
+
+  return ContentService.createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Converts a string to PascalCase (e.g., "pLAyer naME" -> "PlayerName").
+ */
+function toPascalCase(str) {
+  if (typeof str !== 'string') {
+    return ''; // Handle non-string inputs
+  }
+  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word) {
+    return word.toUpperCase(); // Capitalize the first letter of each word
+  }).replace(/\s+/g, '') // Remove all spaces
+    .replace(/[^a-zA-Z0-9]/g, ''); //Remove non-alphanumeric characters
+}
