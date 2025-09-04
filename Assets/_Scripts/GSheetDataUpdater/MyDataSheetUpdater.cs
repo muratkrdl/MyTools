@@ -26,10 +26,10 @@ namespace _Scripts.GSheetDataUpdater
         public static void UpdateMyDataValues()
         {
             Debug.Log("Updating MyData");
-            _ = UpdateJokerValuesAsync();
+            _ = UpdateMyDataValuesAsync();
         }
 
-        private static async Task UpdateJokerValuesAsync()
+        private static async Task UpdateMyDataValuesAsync()
         {
             string json = await SheetUpdateHelper.FetchSheetData(SheetUrl);
             if (!string.IsNullOrEmpty(json))
