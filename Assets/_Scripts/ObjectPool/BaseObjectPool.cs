@@ -17,7 +17,7 @@ namespace _Scripts.ObjectPool
         {
             _pool = new ObjectPool<T1> 
             (
-                ObCreate,
+                OnCreate,
                 OnGet,
                 OnRelease,
                 OnDestroyForPool,
@@ -27,7 +27,7 @@ namespace _Scripts.ObjectPool
             );
         }
 
-        protected virtual T1 ObCreate()
+        protected virtual T1 OnCreate()
         {
             var obj = Instantiate(prefab, transform);
             obj.SetPool(_pool);
