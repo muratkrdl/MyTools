@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using _Scripts.Singleton;
 using _Scripts.Utilities;
@@ -8,19 +9,22 @@ namespace _Scripts.SFX
 {
     public class SFXManager : MonoSingleton<SFXManager>
     {
-        private SFXData[] sfxs;
+        private Dictionary<string, SFXData> sfxDataDictionary;
         private AudioMixer audioMixer;
 
         protected override void Awake()
         {
             base.Awake();
-            sfxs = Resources.LoadAll<SFXData>("Data/SFXs");
+            SFXData[] sfxs = Resources.LoadAll<SFXData>("Data/SFXs");
+            sfxDataDictionary = sfxs.ToDictionary(sfx => sfx.name, sfx => sfx);
+            
             audioMixer = Resources.Load<AudioMixer>("SFXAudioMixer");
         }
 
         public void PlaySFX(string sfxName, Vector3 position = default) // position = Vector3.Zero
         {
-            SFXData data = sfxs.FirstOrDefault(item => item.Name == sfxName);
+            if (!sfxDataDictionary.TryGetValue(sfxName, out SFXData data)) return;
+            
             SFXObject sfxObject = SFXObjectPool.Instance.GetFromPool();
             sfxObject.SetPosition(position);
             sfxObject.Play(data, GetAudioMixerGroupByType(data.type));

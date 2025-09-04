@@ -30,10 +30,5 @@ namespace _Scripts.SFX
             return Random.Range(MinPitch, MaxPitch);
         }
         
-        public override int GetHashCode()
-        {
-            return name.GetHashCode();
-        }
-        
     }
 }
